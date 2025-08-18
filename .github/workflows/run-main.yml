@@ -19,4 +19,4 @@ jobs:
           java-version: '21'
 
       - name: Run JAR file
-        run: java -jar deine-datei.jar
+        run: java -jar main.jar
