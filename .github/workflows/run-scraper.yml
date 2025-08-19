@@ -1,0 +1,26 @@
+name: Run Amazon Scraper
+
+on:
+  workflow_dispatch: # manuell starten
+  #schedule:
+  #  - cron: "*/30 * * * *" # alle 30 Minuten ausführen (kannst du anpassen)
+
+jobs:
+  run-scraper:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Write service account credentials
+        run: echo "${{ secrets.GOOGLE_CREDENTIALS }}" > service_account.json
+
+      - name: Run scraper
+        run: java -jar amazonscraper.jar
