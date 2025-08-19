@@ -19,19 +19,14 @@ jobs:
           distribution: temurin
           java-version: 21
 
+      # --- Service Account schreiben ---
       - name: Write service account credentials
         run: |
-          printf "%s" "${{ secrets.GOOGLE_CREDENTIALS }}" > service_account.json
+          echo "${{ secrets.GOOGLE_CREDENTIALS_B64 }}" | base64 --decode > service_account.json
 
       - name: Check service-account.json
-        run: |
-          echo "Checking service_account.json..."
-          ls -l service_account.json
-          cat service_account.json
+        run: ls -l service_account.json
 
+      # --- Scraper ausführen ---
       - name: Run scraper
         run: java -jar amazonscraper-1.0.jar
-
-      - name: Cleanup service account file
-        if: always()
-        run: rm -f service_account.json
