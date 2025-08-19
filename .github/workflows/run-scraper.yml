@@ -3,7 +3,7 @@ name: Run Amazon Scraper
 on:
   workflow_dispatch: # manuell starten
   #schedule:
-  #  - cron: "*/30 * * * *" # alle 30 Minuten ausführen (kannst du anpassen)
+  #  - cron: "*/30 * * * *" # alle 30 Minuten ausführen (optional)
 
 jobs:
   run-scraper:
@@ -20,10 +20,18 @@ jobs:
           java-version: 21
 
       - name: Write service account credentials
-        run: echo "${{ secrets.GOOGLE_CREDENTIALS }}" > service_account.json
+        run: |
+          printf "%s" "${{ secrets.GOOGLE_CREDENTIALS }}" > service_account.json
 
       - name: Check service-account.json
-        run: ls -l service-account.json
+        run: |
+          echo "Checking service_account.json..."
+          ls -l service_account.json
+          cat service_account.json
 
       - name: Run scraper
         run: java -jar amazonscraper-1.0.jar
+
+      - name: Cleanup service account file
+        if: always()
+        run: rm -f service_account.json
