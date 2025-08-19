@@ -23,4 +23,4 @@ jobs:
         run: echo "${{ secrets.GOOGLE_CREDENTIALS }}" > service_account.json
 
       - name: Run scraper
-        run: java -jar amazonscraper.jar
+        run: java -jar amazonscraper-1.0.jar
