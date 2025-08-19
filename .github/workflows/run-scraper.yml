@@ -22,5 +22,8 @@ jobs:
       - name: Write service account credentials
         run: echo "${{ secrets.GOOGLE_CREDENTIALS }}" > service_account.json
 
+      - name: Check service-account.json
+        run: ls -l service-account.json
+
       - name: Run scraper
         run: java -jar amazonscraper-1.0.jar
